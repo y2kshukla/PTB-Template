@@ -1,0 +1,7 @@
+python-telegram-bot[asyncio]
+python-dotenv
+aiohttp
+pymysql
+requests
+mysql-connector-python
+aiomysql
