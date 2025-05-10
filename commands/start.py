@@ -18,16 +18,27 @@ async def send_start_message(update: Update, context: ContextTypes.DEFAULT_TYPE)
     username = user.username
     user_id = user.id
 
-    await db.add_user(user_id, username)
+    user_exists = await db.check_user_exists(user_id)
 
-    # Send the image with a caption
-    await helper.send_dashboard_photo(
-        update,
-        context,
-        body_text=f"👋 Welcome back!\n\n💰 You are logged in.",
-        reply_markup=InlineKeyboardMarkup(keyboard_layout),
-        parse_mode="Markdown"
-    )
+    if not user_exists:
+        await db.add_user(user_id, username)
+
+        # Send the image with a caption
+        await helper.send_dashboard_photo(
+            update,
+            context,
+            body_text=f"👋 Welcome *{username}*!",
+            reply_markup=InlineKeyboardMarkup(keyboard_layout),
+            parse_mode="Markdown"
+        )
+    else:
+        await helper.send_dashboard_photo(
+            update,
+            context,
+            body_text=f"👋 Welcome Back, *{username}*!",
+            reply_markup=InlineKeyboardMarkup(keyboard_layout),
+            parse_mode="Markdown"
+        )
 
 async def handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await send_start_message(update, context)

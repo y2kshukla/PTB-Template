@@ -108,6 +108,23 @@ async def add_user(telegram_id: int, username: str = None):
         finally:
             connection.close()
 
+async def check_user_exists(telegram_id: int) -> bool:
+    connection = await create_connection()
+    if connection:
+        try:
+            async with connection.cursor() as cursor:
+                await cursor.execute("""
+                    SELECT 1 FROM Users WHERE telegram_id = %s;
+                """, (telegram_id,))
+                result = await cursor.fetchone()
+                return result is not None
+        except Exception as e:
+            print(f"Error checking user existence: {e}")
+            return False
+        finally:
+            connection.close()
+    return False
+
 async def extract_telegram_id(s: str) -> str:
     telegram_id = ''
     for char in s:
