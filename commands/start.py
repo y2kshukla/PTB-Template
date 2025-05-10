@@ -2,7 +2,7 @@ command = "start"
 from telegram import Update
 from telegram.ext import ContextTypes
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from utils import helper
+from utils import helper, db
 
 async def send_start_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     keyboard_layout = [
@@ -13,6 +13,12 @@ async def send_start_message(update: Update, context: ContextTypes.DEFAULT_TYPE)
         ],
         [InlineKeyboardButton("❌ Logout", callback_data="logout" )]
     ]
+
+    user = update.effective_user
+    username = user.username
+    user_id = user.id
+
+    await db.add_user(user_id, username)
 
     # Send the image with a caption
     await helper.send_dashboard_photo(

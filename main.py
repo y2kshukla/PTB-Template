@@ -3,6 +3,7 @@ import os
 from utils import load_dynamic_handlers, db
 from dotenv import load_dotenv
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler
+import asyncio
 
 # Load environment variables
 load_dotenv()

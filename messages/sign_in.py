@@ -26,6 +26,13 @@ async def handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=cancel_keyboard,
             parse_mode="Markdown"
         )
+        # await helper.send_dashboard_photo(
+        #     update,
+        #     context,
+        #     body_text=f"TestBot | LOGIN\n\n1️⃣ Username: {username}\n\n2️⃣ Password: \n\n💬 Please input your password now",
+        #     reply_markup=InlineKeyboardMarkup(cancel_keyboard),
+        #     parse_mode="Markdown"
+        # )
 
     elif state == AWAITING_PASSWORD:
         context.user_data["link_password"] = text
